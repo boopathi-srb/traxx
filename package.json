@@ -1,14 +1,37 @@
 {
-  "name": "route-analytics",
+  "name": "traxx",
   "version": "1.0.0",
+  "description": "Asynchronous route-level analytics for Express.js. Tracks latency, request data, errors, and multi-tenant admin context. MongoDB + BullMQ + Redis.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "types": "./index.d.ts",
+  "keywords": [
+    "express",
+    "analytics",
+    "routes",
+    "observability",
+    "bullmq",
+    "redis",
+    "mongoose",
+    "logging",
+    "middleware",
+    "performance",
+    "tracing",
+    "metrics",
+    "monitoring"
+  ],
+  "author": "boopathi-srb",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boopathi-srb/traxx.git"
   },
-  "keywords": [],
-  "author": "srb",
-  "license": "ISC",
-  "description": "",
+  "bugs": {
+    "url": "https://github.com/boopathi-srb/traxx/issues"
+  },
+  "homepage": "https://github.com/boopathi-srb/traxx#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "bullmq": "^5.45.0",
     "chart.js": "^4.4.8",
@@ -17,5 +40,12 @@
     "express": "^4.21.2",
     "ioredis": "^5.6.0",
     "mongoose": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0",
+    "dev":"nodemon index.js"
   }
 }
