@@ -44,11 +44,6 @@ const analytics = new RouteAnalytics({
 
 await analytics.init(); // Connect to Mongo + Redis
 
-// Optional: assign tenant/client ID
-app.use((req, res, next) => {
-  next();
-});
-
 // Enable tracking middleware
 app.use(analytics.middleware());
 
