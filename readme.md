@@ -55,10 +55,6 @@ app.get("/shop/:id", (req, res) => {
 // Start async worker to handle bulk writes
 analytics.startWorker();
 
-// Optional: enable built-in dashboard
-app.use("/traxx", analytics.dashboard());
-
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
 ```
 
 ---
