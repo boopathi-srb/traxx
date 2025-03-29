@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const IORedis = require("ioredis");
 const { Queue } = require("bullmq");
-const startWorker = require("./worker");
+const startWorker = require("./lib/worker");
 const middleware = require("./lib/middleware");
 const traxxModel = require("./lib/model");
 
