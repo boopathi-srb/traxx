@@ -23,7 +23,7 @@
   "license": "CC-BY-NC-4.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/boopathi-srb/traxx.git"
+    "url": "git+https://github.com/boopathi-srb/traxx.git"
   },
   "bugs": {
     "url": "https://github.com/boopathi-srb/traxx/issues"
@@ -46,6 +46,6 @@
   },
   "scripts": {
     "test": "echo \"No tests yet\" && exit 0",
-    "dev":"nodemon index.js"
+    "dev": "nodemon index.js"
   }
 }
