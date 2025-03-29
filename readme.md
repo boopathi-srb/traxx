@@ -90,7 +90,6 @@ const recent = await Log.find().sort({ timestamp: -1 }).limit(50);
 ## 🧠 Why Traxx?
 
 - Built for **modern Express apps**
-- Designed for **SaaS and multi-tenant use cases**
 - Tracks everything you need, nothing you don’t
 - Async, performant, and ready for production
 
@@ -104,5 +103,6 @@ Made with 💻 by [boopathi-srb](https://github.com/boopathi-srb)
 
 ## 📄 License
 
-MIT
+CC-BY-NC-4.0
+
 
