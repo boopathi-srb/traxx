@@ -1,21 +1,3 @@
-const mongoose = require("mongoose");
-const IORedis = require("ioredis");
-const { Queue } = require("bullmq");
-const startWorker = require("./lib/worker");
-const middleware = require("./lib/middleware");
-const traxxModel = require("./lib/model");
+const Traxx = require("./lib/traxx");
 
-
-async function init(mongoUri, redisUri) {
-  await mongoose.connect(mongoUri);
-  const redis = new IORedis(redisUri);
-  new Queue("route-analytics-queue", { connection: redis });
-  startWorker(mongoUri, redisUri)
-  return {status:""};
-}
-
-module.exports = {
-  init,
-  middleware,
-  traxxModel
-};
+module.exports = Traxx;

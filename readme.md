@@ -33,27 +33,29 @@ npm install traxx
 
 ```js
 const express = require("express");
-const RouteAnalytics = require("traxx");
+const Traxx = require("traxx");
 
 const app = express();
 
-const analytics = new RouteAnalytics({
+const traxx = new Traxx({
   mongoUri: process.env.MONGO_URI,
   redisUri: process.env.REDIS_URI,
 });
 
-await analytics.init(); // Connect to Mongo + Redis
-
 // Enable tracking middleware
-app.use(analytics.middleware());
+app.use(traxx.middleware());
 
 // Example route
 app.get("/shop/:id", (req, res) => {
   res.json({ status: true, shop: req.params.id });
 });
 
-// Start async worker to handle bulk writes
-analytics.startWorker();
+//Start the server and initialize the traxx
+const port = process.env.PORT || 8080;
+const server = app.listen(port, async () => {
+  await traxx.init(); // Connect to Mongo + Redis
+  console.log(`Listening on port ${port}...`);
+});
 
 ```
 
