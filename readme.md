@@ -42,8 +42,11 @@ const traxx = new Traxx({
   redisUri: process.env.REDIS_URI,
 });
 
-// Enable tracking middleware
+// Enable tracking middleware without any custom fields
 app.use(traxx.middleware());
+
+// if needed to add any custom fields for tracking purpose, like the tenantId
+app.use((req, res, next) => traxx.middleware({tenantId: req.body.tenantId})(req, res, next))
 
 // Example route
 app.get("/shop/:id", (req, res) => {
@@ -68,11 +71,12 @@ const server = app.listen(port, async () => {
 | `route`         | Full URL path without query string     |
 | `method`        | `GET`, `POST`, etc.                    |
 | `statusCode`    | Final response status                  |
-| `latency`       | ms, calculated via `process.hrtime()` |
+| `latency`       | ms, calculated via `process.hrtime()`  |
 | `timestamp`     | ISO string                             |
 | `requestBody`   | Parsed `req.body`                      |
 | `requestParams` | From `req.params`                      |
 | `requestQuery`  | From `req.query`                       |
+| `customFields`  | Anything that you pass in the middleware()                      |
 
 Each request is stored as its own document — **no pre-aggregation**, full raw logs for full custom analytics.
 
@@ -83,7 +87,7 @@ Each request is stored as its own document — **no pre-aggregation**, full raw 
 Need to build your own dashboard or metrics?
 
 ```js
-const Log = analytics.routeAnalyticsModel();
+const Log = traxx.model();//get the model instance
 const recent = await Log.find().sort({ timestamp: -1 }).limit(50);
 ```
 
