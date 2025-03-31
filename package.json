@@ -1,6 +1,6 @@
 {
   "name": "traxx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Asynchronous route-level analytics for Express.js. Tracks latency, request data, and errors. MongoDB + BullMQ + Redis.",
   "main": "index.js",
   "keywords": [
