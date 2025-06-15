@@ -4,7 +4,6 @@
 
 A minimal, production-ready route analytics toolkit for Express.js.
 
-
 Tracks every request — latency, status codes, request metadata, and errors — and stores it asynchronously in MongoDB using BullMQ + Redis.
 
 Built for **SaaS platforms**, **internal tools**, and **teams who care about visibility without bloat**.
@@ -18,6 +17,7 @@ Built for **SaaS platforms**, **internal tools**, and **teams who care about vis
 - 🧵 **Captures error stack + message** (if request fails)
 - ⚙️ **Asynchronous writes** via BullMQ (Redis)
 - 🧱 **MongoDB model access** for custom queries
+- 🔔 **Notifications** via Teams, Slack, and Google Chat for specific status codes with detailed error information
 
 ---
 
@@ -40,7 +40,24 @@ const app = express();
 const traxx = new Traxx({
   mongoUri: process.env.MONGO_URI,
   redisUri: process.env.REDIS_URI,
-  logIPAddress: true //false by default
+  logIPAddress: true, //false by default
+  notifications: {
+    statusCodes: [404, 500], // or { min: 400, max: 599 } for all error codes
+    channels: [
+      {
+        type: 'teams',
+        options: {
+          webhookUrl: process.env.TEAMS_WEBHOOK_URL
+        }
+      },
+      {
+        type: 'slack',
+        options: {
+          webhookUrl: process.env.SLACK_WEBHOOK_URL
+        }
+      }
+    ]
+  }
 });
 
 // Enable tracking middleware without any custom fields
@@ -93,12 +110,74 @@ const Log = traxx.model();//get the model instance
 const recent = await Log.find().sort({ timestamp: -1 }).limit(50);
 ```
 
+## 🔔 Notification Configuration
+
+Traxx can send notifications to Teams, Slack, and Google Chat when specific status codes are encountered.
+
+### Status Code Configuration
+
+You can specify which status codes should trigger notifications in several ways:
+
+```js
+// Specific status codes as an array
+notifications: {
+  statusCodes: [404, 500, 503],
+  // ...
+}
+
+// Range of status codes
+notifications: {
+  statusCodes: { min: 400, max: 599 }, // All 4xx and 5xx errors
+  // ...
+}
+```
+
+### Channel Configuration
+
+Configure one or more notification channels:
+
+```js
+notifications: {
+  statusCodes: [500],
+  channels: [
+    {
+      type: 'teams',
+      options: {
+        webhookUrl: 'https://outlook.office.com/webhook/...'
+      }
+    },
+    {
+      type: 'slack',
+      options: {
+        webhookUrl: 'https://hooks.slack.com/services/...'
+      }
+    },
+    {
+      type: 'googleChat',
+      options: {
+        webhookUrl: 'https://chat.googleapis.com/v1/spaces/...'
+      }
+    }
+  ]
+}
+```
+
+### Error Information in Notifications
+
+Notifications automatically include detailed error information when available:
+
+- **Error Message**: The error message is displayed prominently in the notification
+- **Error Stack**: For debugging purposes, the full stack trace is included when available
+- **Automatic Error Detection**: Even for status codes without explicit errors, Traxx generates appropriate error messages
+
+This helps you quickly identify and diagnose issues when they occur.
+
 ---
 
 ## 🧠 Why Traxx?
 
 - Built for **modern Express apps**
-- Tracks everything you need, nothing you don’t
+- Tracks everything you need, nothing you don't
 - Async, performant, and ready for production
 
 ---
@@ -128,7 +207,7 @@ server {
 With this setup:
 
 - Traxx will correctly capture the real client IP via the `X-Forwarded-For` header.
-- If you’re using multiple proxies, this setup will always capture the first IP in the chain (the client’s original IP).
+- If you're using multiple proxies, this setup will always capture the first IP in the chain (the client's original IP).
 
 ---
 
@@ -141,4 +220,3 @@ Made with 💻 by [boopathi-srb](https://github.com/boopathi-srb)
 ## 📄 License
 
 CC-BY-NC-4.0
-

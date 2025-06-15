@@ -3,5 +3,6 @@ node_modules
 .git
 .gitignore
 README-assets/
+examples/
 *.png
 *.log

@@ -1,7 +1,7 @@
 {
   "name": "traxx",
-  "version": "1.3.7",
-  "description": "Asynchronous route-level analytics for Express.js. Tracks latency, request data, and errors. MongoDB + BullMQ + Redis.",
+  "version": "1.4.1",
+  "description": "Asynchronous route-level analytics for Express.js. Tracks latency, request data, and errors. Supports notifications via Teams, Slack, and Google Chat. MongoDB + BullMQ + Redis.",
   "main": "index.js",
   "keywords": [
     "express",
@@ -17,7 +17,12 @@
     "tracing",
     "metrics",
     "monitoring",
-    "traxx"
+    "traxx",
+    "notifications",
+    "slack",
+    "teams",
+    "google-chat",
+    "alerts"
   ],
   "author": "boopathi-srb",
   "license": "CC-BY-NC-4.0",
