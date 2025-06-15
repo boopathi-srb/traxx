@@ -12,6 +12,7 @@
  */
 
 const notifiers = require("../lib/notifications");
+const dayjs = require("dayjs");
 
 // Create a test error with stack trace
 function generateTestError() {
@@ -31,7 +32,7 @@ const testData = {
   method: "GET",
   statusCode: 500,
   latency: 345,
-  timestamp: new Date(),
+  timestamp: new Date(), // This will be formatted in the notification modules
   requestBody: {
     userId: "123",
     action: "update",
@@ -59,6 +60,12 @@ const testData = {
   ipAddress: "192.168.1.100",
   error: generateTestError(),
 };
+
+// Log the expected formatted timestamp for verification
+console.log(
+  "Expected formatted timestamp:",
+  dayjs(testData.timestamp).format("DD-MM-YYYY, HH:mm:ss")
+);
 
 async function testNotifications() {
   console.log("Testing notification channels...");
