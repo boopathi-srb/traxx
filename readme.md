@@ -162,6 +162,19 @@ notifications: {
 }
 ```
 
+### Comprehensive Notification Data
+
+Notifications include all data that is tracked in the database:
+
+- **Basic Request Info**: Method, route, status code, latency, timestamp
+- **Request Data**: Request body, parameters, query string
+- **Response Data**: Response body
+- **Custom Fields**: Any custom fields passed to the middleware
+- **IP Address**: Client IP address (if logIPAddress is enabled)
+- **Error Information**: Error message and stack trace
+
+This comprehensive data helps you quickly identify and diagnose issues when they occur, with all the context you need to reproduce and fix problems.
+
 ### Error Information in Notifications
 
 Notifications automatically include detailed error information when available:

@@ -25,29 +25,55 @@ function generateTestError() {
   }
 }
 
-// Sample request data
+// Sample request data with all fields that would be tracked in the DB
 const testData = {
   route: "/api/users/123",
   method: "GET",
   statusCode: 500,
   latency: 345,
   timestamp: new Date(),
-  requestBody: { userId: "123" },
+  requestBody: {
+    userId: "123",
+    action: "update",
+    data: {
+      name: "John Doe",
+      email: "john@example.com",
+    },
+  },
   requestParams: { id: "123" },
-  requestQuery: { includeDetails: "true" },
+  requestQuery: {
+    includeDetails: "true",
+    fields: "name,email,address",
+  },
+  responseBody: {
+    error: true,
+    message: "User not found",
+    code: "USER_NOT_FOUND",
+  },
+  customFields: {
+    tenantId: "tenant-123",
+    environment: "production",
+    userId: "user-456",
+    service: "user-service",
+  },
+  ipAddress: "192.168.1.100",
   error: generateTestError(),
 };
 
 async function testNotifications() {
   console.log("Testing notification channels...");
 
+  const teamsWebhookUrl = process.env.TEAMS_WEBHOOK_URL;
+  const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
+  const googleChatWebhookUrl = process.env.GOOGLE_CHAT_WEBHOOK_URL;
+
   // Test Teams notification
-  if (process.env.TEAMS_WEBHOOK_URL) {
+  if (teamsWebhookUrl) {
     try {
       console.log("Sending Teams notification...");
       await notifiers.teams.sendNotification(
         {
-          webhookUrl: process.env.TEAMS_WEBHOOK_URL,
+          webhookUrl: teamsWebhookUrl,
         },
         testData
       );
@@ -60,12 +86,12 @@ async function testNotifications() {
   }
 
   // Test Slack notification
-  if (process.env.SLACK_WEBHOOK_URL) {
+  if (slackWebhookUrl) {
     try {
       console.log("Sending Slack notification...");
       await notifiers.slack.sendNotification(
         {
-          webhookUrl: process.env.SLACK_WEBHOOK_URL,
+          webhookUrl: slackWebhookUrl,
         },
         testData
       );
@@ -78,12 +104,12 @@ async function testNotifications() {
   }
 
   // Test Google Chat notification
-  if (process.env.GOOGLE_CHAT_WEBHOOK_URL) {
+  if (googleChatWebhookUrl) {
     try {
       console.log("Sending Google Chat notification...");
       await notifiers.googleChat.sendNotification(
         {
-          webhookUrl: process.env.GOOGLE_CHAT_WEBHOOK_URL,
+          webhookUrl: googleChatWebhookUrl,
         },
         testData
       );
